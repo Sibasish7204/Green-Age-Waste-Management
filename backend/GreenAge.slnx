@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/GreenAge.Api/GreenAge.Api.csproj" />
+    <Project Path="src/GreenAge.Core/GreenAge.Core.csproj" />
+    <Project Path="src/GreenAge.Infrastructure/GreenAge.Infrastructure.csproj" />
+    <Project Path="src/GreenAge.Services/GreenAge.Services.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/GreenAge.Tests/GreenAge.Tests.csproj" />
+  </Folder>
+</Solution>
