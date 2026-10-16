@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace GreenAge.Api.Controllers;
 
-public sealed record UserDto(Guid Id, string Name, string Email, string? Phone, UserRole Role, string? PhotoUrl);
+public sealed record UserDto(Guid Id, string Name, string Email, string? Phone, UserRole Role, string? PhotoUrl, string? Address, string? Area);
 public sealed record AuthResponse(string Token, UserDto User);
 public sealed record RequestItemDto(int CategoryId, string CategoryName, string Unit, decimal RequestedQuantity, decimal? ActualQuantity);
 public sealed record PartyDto(Guid Id, string Name, string? Phone);
@@ -26,8 +26,8 @@ public sealed class AuthController(AuthService auth, IConfiguration configuratio
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register(RegisterBody body)
     {
-        if (!Enum.TryParse<UserRole>(body.Role, true, out var role) || !Enum.IsDefined(role)) throw new DomainException("Role must be Deliver or Collect.", 400);
-        var user = await auth.RegisterAsync(body.Name, body.Email, body.Password, body.Phone, role);
+        if (!Enum.TryParse<UserRole>(body.Role, true, out var role) || !Enum.IsDefined(role)) throw new DomainException("Role must be Deliver, Collect, Household, or MunicipalWorker.", 400);
+        var user = await auth.RegisterAsync(body.Name, body.Email, body.Password, body.Phone, role, body.Address, body.Area);
         return StatusCode(201, CreateResponse(user));
     }
 
@@ -44,11 +44,11 @@ public sealed class AuthController(AuthService auth, IConfiguration configuratio
         return new AuthResponse(new JwtSecurityTokenHandler().WriteToken(token), ToDto(user));
     }
 
-    internal static UserDto ToDto(User user) => new(user.Id, user.Name, user.Email, user.Phone, user.Role, user.PhotoUrl);
+    internal static UserDto ToDto(User user) => new(user.Id, user.Name, user.Email, user.Phone, user.Role, user.PhotoUrl, user.Address, user.Area);
 }
 
 public sealed record RegisterBody([Required, MinLength(1)] string Name, [Required, EmailAddress] string Email,
-    [Required, MinLength(8)] string Password, string? Phone, [Required] string Role);
+    [Required, MinLength(8)] string Password, string? Phone, [Required] string Role, string? Address, string? Area);
 public sealed record LoginBody([Required, EmailAddress] string Email, [Required] string Password);
 
 [ApiController]

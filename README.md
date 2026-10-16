@@ -4,7 +4,8 @@ A demo platform connecting waste deliverers with local collectors. The React app
 
 ## Projects
 
-- `frontend/`: React 18, Vite, TypeScript, React Router, TanStack Query, Axios, Tailwind CSS.
+- `frontend/`: React 18, Vite, TypeScript, React Router, TanStack Query, Axios, Tailwind CSS. Handles non-bio recyclable sales and the legacy pickup request flow.
+- `frontend/bio-collection/`: standalone React and TypeScript app for household bio-waste QR collection and municipal worker visit logging.
 - `backend/`: .NET 8 solution with API, Core, Infrastructure, Services, and xUnit projects.
 
 ## Run
@@ -25,6 +26,16 @@ npm run dev
 ```
 
 Vite serves `http://localhost:5173`. Set `VITE_GOOGLE_MAPS_API_KEY` to enable Google Maps; the address and coordinate form remains available without a key. API URL defaults to `http://localhost:5080/api`.
+
+Start the municipal bio-collection app in a second terminal:
+
+```powershell
+cd frontend/bio-collection
+npm install
+npm run dev
+```
+
+It serves `http://localhost:5174`. The main app links to this address by default; set `VITE_BIO_APP_URL` when hosting the two frontends separately. Rate offers, sale history, household profiles, and worker visit logs currently use hardcoded data or browser storage for the demo and are not shared across devices.
 
 Demo accounts use password `Demo@123`:
 

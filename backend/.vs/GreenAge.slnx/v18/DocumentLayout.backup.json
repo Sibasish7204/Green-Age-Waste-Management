@@ -3,8 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{DBCA809C-E0B5-AF53-A27F-04EBF9566FB3}|src\\GreenAge.Infrastructure\\GreenAge.Infrastructure.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.infrastructure\\jsonrepositories.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DBCA809C-E0B5-AF53-A27F-04EBF9566FB3}|src\\GreenAge.Infrastructure\\GreenAge.Infrastructure.csproj|solutionrelative:src\\greenage.infrastructure\\jsonrepositories.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBCA809C-E0B5-AF53-A27F-04EBF9566FB3}|src\\GreenAge.Infrastructure\\GreenAge.Infrastructure.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.infrastructure\\jsoncollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DBCA809C-E0B5-AF53-A27F-04EBF9566FB3}|src\\GreenAge.Infrastructure\\GreenAge.Infrastructure.csproj|solutionrelative:src\\greenage.infrastructure\\jsoncollection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F9E1A3F1-A743-F537-5496-5E0FE55D8A05}|src\\GreenAge.Api\\GreenAge.Api.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.api\\data\\categories.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F9E1A3F1-A743-F537-5496-5E0FE55D8A05}|src\\GreenAge.Api\\GreenAge.Api.csproj|solutionrelative:src\\greenage.api\\data\\categories.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F9E1A3F1-A743-F537-5496-5E0FE55D8A05}|src\\GreenAge.Api\\GreenAge.Api.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F9E1A3F1-A743-F537-5496-5E0FE55D8A05}|src\\GreenAge.Api\\GreenAge.Api.csproj|solutionrelative:src\\greenage.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{381D6046-A217-B8EF-91B8-F3A5F8C5D620}|src\\GreenAge.Core\\GreenAge.Core.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.core\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{381D6046-A217-B8EF-91B8-F3A5F8C5D620}|src\\GreenAge.Core\\GreenAge.Core.csproj|solutionrelative:src\\greenage.core\\entities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DBCA809C-E0B5-AF53-A27F-04EBF9566FB3}|src\\GreenAge.Infrastructure\\GreenAge.Infrastructure.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.infrastructure\\greenagedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DBCA809C-E0B5-AF53-A27F-04EBF9566FB3}|src\\GreenAge.Infrastructure\\GreenAge.Infrastructure.csproj|solutionrelative:src\\greenage.infrastructure\\greenagedbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F9E1A3F1-A743-F537-5496-5E0FE55D8A05}|src\\GreenAge.Api\\GreenAge.Api.csproj|c:\\users\\sibas\\source\\repos\\green-age-waste-system\\greenage\\backend\\src\\greenage.api\\controllers\\apicontrollers.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -18,11 +38,72 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "JsonCollection.cs",
+              "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Infrastructure\\JsonCollection.cs",
+              "RelativeDocumentMoniker": "src\\GreenAge.Infrastructure\\JsonCollection.cs",
+              "ToolTip": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Infrastructure\\JsonCollection.cs",
+              "RelativeToolTip": "src\\GreenAge.Infrastructure\\JsonCollection.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAEwAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T23:16:42.876Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "categories.json",
+              "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Api\\data\\categories.json",
+              "RelativeDocumentMoniker": "src\\GreenAge.Api\\data\\categories.json",
+              "ToolTip": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Api\\data\\categories.json",
+              "RelativeToolTip": "src\\GreenAge.Api\\data\\categories.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-10-09T23:18:13.06Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "JsonRepositories.cs",
+              "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Infrastructure\\JsonRepositories.cs",
+              "RelativeDocumentMoniker": "src\\GreenAge.Infrastructure\\JsonRepositories.cs",
+              "ToolTip": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Infrastructure\\JsonRepositories.cs",
+              "RelativeToolTip": "src\\GreenAge.Infrastructure\\JsonRepositories.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAgwEYAAAAHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T23:16:01.045Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GreenAgeDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Infrastructure\\GreenAgeDbContext.cs",
+              "RelativeDocumentMoniker": "src\\GreenAge.Infrastructure\\GreenAgeDbContext.cs",
+              "ToolTip": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Infrastructure\\GreenAgeDbContext.cs",
+              "RelativeToolTip": "src\\GreenAge.Infrastructure\\GreenAgeDbContext.cs",
+              "ViewState": "AgIAAD8AAAAAAAAAAAA6wDAAAABsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T23:15:23.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Entities.cs",
+              "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Core\\Entities.cs",
+              "RelativeDocumentMoniker": "src\\GreenAge.Core\\Entities.cs",
+              "ToolTip": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Core\\Entities.cs",
+              "RelativeToolTip": "src\\GreenAge.Core\\Entities.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAvwBkAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T23:14:33.52Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "ApiControllers.cs",
               "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Api\\Controllers\\ApiControllers.cs",
               "RelativeDocumentMoniker": "src\\GreenAge.Api\\Controllers\\ApiControllers.cs",
@@ -30,21 +111,19 @@
               "RelativeToolTip": "src\\GreenAge.Api\\Controllers\\ApiControllers.cs",
               "ViewState": "AgIAADEAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-07T03:06:31.668Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-07T03:06:31.668Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Api\\Program.cs",
               "RelativeDocumentMoniker": "src\\GreenAge.Api\\Program.cs",
               "ToolTip": "C:\\Users\\sibas\\source\\repos\\Green-Age-Waste-System\\GreenAge\\backend\\src\\GreenAge.Api\\Program.cs",
               "RelativeToolTip": "src\\GreenAge.Api\\Program.cs",
-              "ViewState": "AgIAAA8AAAAAAAAAAAAAABsAAABFAAAAAAAAAA==",
+              "ViewState": "AgIAAE8AAAAAAAAAAAAvwFkAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-10-07T03:06:17.571Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-10-07T03:06:17.571Z"
             }
           ]
         }

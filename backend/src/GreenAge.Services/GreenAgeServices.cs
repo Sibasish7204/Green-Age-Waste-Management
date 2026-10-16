@@ -9,13 +9,17 @@ public sealed class AuthService(IUserRepository users)
 {
     private readonly PasswordHasher<User> passwordHasher = new();
 
-    public async Task<User> RegisterAsync(string name, string email, string password, string? phone, UserRole role)
+    public async Task<User> RegisterAsync(string name, string email, string password, string? phone, UserRole role, string? address = null, string? area = null)
     {
         if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(email) || password.Length < 8 || !Enum.IsDefined(role))
             throw new DomainException("Name, valid email, password (minimum 8 characters), and role are required.", 400);
+        if (role == UserRole.Household && (string.IsNullOrWhiteSpace(address) || string.IsNullOrWhiteSpace(area)))
+            throw new DomainException("Households must provide their address and area.", 400);
+        if (role == UserRole.MunicipalWorker && string.IsNullOrWhiteSpace(area))
+            throw new DomainException("Municipal workers must provide their assigned area.", 400);
         email = email.Trim().ToLowerInvariant();
         if (await users.GetByEmailAsync(email) is not null) throw new DomainException("Email is already registered.", 409);
-        var user = new User { Name = name.Trim(), Email = email, Phone = phone?.Trim(), Role = role };
+        var user = new User { Name = name.Trim(), Email = email, Phone = phone?.Trim(), Role = role, Address = address?.Trim(), Area = area?.Trim() };
         user.PasswordHash = passwordHasher.HashPassword(user, password);
         await users.AddAsync(user);
         return user;

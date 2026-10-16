@@ -38,3 +38,27 @@ public interface ISosRepository
 {
     Task AddAsync(SosAlert alert);
 }
+
+public interface INonBioSaleRepository
+{
+    Task<NonBioSale?> GetByIdAsync(Guid id);
+    Task<IReadOnlyList<NonBioSale>> GetBySellerAsync(Guid sellerId);
+    Task AddAsync(NonBioSale sale);
+    Task UpdateAsync(NonBioSale sale);
+    Task<bool> TryCompleteAsync(Guid id, Guid collectorId, string tokenHash, DateTime now);
+}
+
+public interface INonBioOfferRepository
+{
+    Task<IReadOnlyList<NonBioOffer>> GetAllAsync();
+    Task<NonBioOffer?> GetByIdAsync(string id);
+}
+
+public interface IBioCollectionRepository
+{
+    Task AddQrTokenAsync(HouseholdQrToken token);
+    Task<HouseholdQrToken?> GetQrTokenAsync(string tokenHash);
+    Task<bool> TryRecordVisitAsync(string tokenHash, BioCollectionVisit visit, DateTime now);
+    Task<IReadOnlyList<BioCollectionVisit>> GetVisitsByWorkerAsync(Guid workerId);
+    Task<BioCollectionVisit?> GetVisitByWorkerAsync(Guid visitId, Guid workerId);
+}

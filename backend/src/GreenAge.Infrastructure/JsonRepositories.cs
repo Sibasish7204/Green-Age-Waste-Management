@@ -21,12 +21,12 @@ public sealed class JsonCategoryRepository(string dataDirectory) : ICategoryRepo
 
     private static readonly WasteCategory[] Seed =
     [
-        new() { Id = 1, Name = "Biodegradable Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "biodegradable" },
-        new() { Id = 2, Name = "Egg Shell Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "eggshell" },
-        new() { Id = 3, Name = "Animal and Fish Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "animal-fish" },
-        new() { Id = 4, Name = "Hard Organics", Group = WasteGroup.Bio, Unit = "kg", IconKey = "hard-organics" },
-        new() { Id = 5, Name = "Fallen Leaves and Twigs", Group = WasteGroup.Bio, Unit = "kg", IconKey = "leaves" },
-        new() { Id = 6, Name = "Used Oil", Group = WasteGroup.Bio, Unit = "litre", IconKey = "used-oil" },
+        //new() { Id = 1, Name = "Biodegradable Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "biodegradable" },
+        //new() { Id = 2, Name = "Egg Shell Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "eggshell" },
+        //new() { Id = 3, Name = "Animal and Fish Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "animal-fish" },
+        //new() { Id = 4, Name = "Hard Organics", Group = WasteGroup.Bio, Unit = "kg", IconKey = "hard-organics" },
+        //new() { Id = 5, Name = "Fallen Leaves and Twigs", Group = WasteGroup.Bio, Unit = "kg", IconKey = "leaves" },
+        //new() { Id = 6, Name = "Used Oil", Group = WasteGroup.Bio, Unit = "litre", IconKey = "used-oil" },
         new() { Id = 7, Name = "Plastic Waste", Group = WasteGroup.NonBio, Unit = "kg", IconKey = "plastic" },
         new() { Id = 8, Name = "Paper and Cardboard", Group = WasteGroup.NonBio, Unit = "kg", IconKey = "paper" },
         new() { Id = 9, Name = "Thermocol and Rubber", Group = WasteGroup.NonBio, Unit = "kg", IconKey = "thermocol-rubber" },
