@@ -6,7 +6,7 @@
 dotnet run --project src/GreenAge.Api
 ```
 
-The API listens at `http://localhost:5080`; Development Swagger is at `/swagger`. By default `Storage:Provider` is `Json`. JSON files are created under `src/GreenAge.Api/data` at runtime and are seeded with the demo categories and accounts.
+The API listens on port `5080` (bound to all interfaces for access from a phone on the same network); Development Swagger is at `/swagger`. Configure `Urls` and `Cors:Origins` in `appsettings.json` for your deployment and allow only trusted app origins. JWT sessions are configured to expire after 30 days by default (`Jwt:ExpiryMinutes`). By default `Storage:Provider` is `Json`. JSON files are created under `src/GreenAge.Api/data` at runtime and are seeded with the demo categories and accounts.
 
 Set `Storage:Provider` to `Sql` to select EF Core repositories. `Storage:SqlEngine` supports `Sqlite` (default) or `SqlServer`; set `ConnectionStrings:Default` for the database connection. Development startup applies the `InitialCreate` migration and seeds categories if empty. Other environments create the schema if it does not exist.
 

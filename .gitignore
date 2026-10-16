@@ -3,7 +3,6 @@ frontend/dist/
 frontend/.env.local
 backend/**/bin/
 backend/**/obj/
-backend/**/data/
 backend/**/*.db
 backend/**/*.db-shm
 backend/**/*.db-wal

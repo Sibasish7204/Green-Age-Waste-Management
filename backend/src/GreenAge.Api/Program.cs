@@ -12,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 var dataDirectory = Path.Combine(builder.Environment.ContentRootPath, "data");
 var jwtKey = builder.Configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is required.");
 
-builder.WebHost.UseUrls("http://localhost:5080");
+builder.WebHost.UseUrls(builder.Configuration["Urls"] ?? "http://localhost:5080");
 builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(options => options.AddSecurityDefinition("Bearer"
     Name = "Authorization", Type = SecuritySchemeType.Http, Scheme = "bearer", BearerFormat = "JWT", In = ParameterLocation.Header
 }));
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy => policy
-    .WithOrigins(builder.Configuration.GetSection("Cors:Origins").Get<string[]>() ?? ["http://localhost:5173"])
+    .WithOrigins(builder.Configuration.GetSection("Cors:Origins").Get<string[]>() ?? ["http://localhost:5173", "http://localhost:5174"])
     .AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
@@ -37,6 +37,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddAuthorization();
 
 var useSql = string.Equals(builder.Configuration["Storage:Provider"], "Sql", StringComparison.OrdinalIgnoreCase);
+builder.Services.AddSingleton<JsonNonBioOfferRepository>(_ => new JsonNonBioOfferRepository(dataDirectory));
+builder.Services.AddSingleton<INonBioOfferRepository>(services => services.GetRequiredService<JsonNonBioOfferRepository>());
 if (useSql)
 {
     builder.Services.AddDbContext<GreenAgeDbContext>(options =>
@@ -51,6 +53,8 @@ if (useSql)
     builder.Services.AddScoped<IPickupRequestRepository, EfPickupRequestRepository>();
     builder.Services.AddScoped<INotificationRepository, EfNotificationRepository>();
     builder.Services.AddScoped<ISosRepository, EfSosRepository>();
+    builder.Services.AddScoped<INonBioSaleRepository, EfNonBioSaleRepository>();
+    builder.Services.AddScoped<IBioCollectionRepository, EfBioCollectionRepository>();
 }
 else
 {
@@ -61,9 +65,13 @@ else
     builder.Services.AddSingleton<IPickupRequestRepository>(_ => new JsonPickupRequestRepository(dataDirectory));
     builder.Services.AddSingleton<INotificationRepository>(_ => new JsonNotificationRepository(dataDirectory));
     builder.Services.AddSingleton<ISosRepository>(_ => new JsonSosRepository(dataDirectory));
+    builder.Services.AddSingleton<INonBioSaleRepository>(_ => new JsonNonBioSaleRepository(dataDirectory));
+    builder.Services.AddSingleton<IBioCollectionRepository>(_ => new JsonBioCollectionRepository(dataDirectory));
 }
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<RequestService>();
+builder.Services.AddScoped<NonBioTradeService>();
+builder.Services.AddScoped<BioCollectionService>();
 
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -80,6 +88,7 @@ using (var scope = app.Services.CreateScope())
         }
     }
     else await scope.ServiceProvider.GetRequiredService<JsonCategoryRepository>().InitializeAsync();
+    await scope.ServiceProvider.GetRequiredService<JsonNonBioOfferRepository>().InitializeAsync();
     await scope.ServiceProvider.GetRequiredService<AuthService>().SeedDemoUsersAsync();
 }
 

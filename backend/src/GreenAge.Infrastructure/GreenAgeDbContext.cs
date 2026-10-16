@@ -11,27 +11,42 @@ public sealed class GreenAgeDbContext(DbContextOptions<GreenAgeDbContext> option
     public DbSet<PickupRequestItem> RequestItems => Set<PickupRequestItem>();
     public DbSet<Notification> Notifications => Set<Notification>();
     public DbSet<SosAlert> SosAlerts => Set<SosAlert>();
+    public DbSet<NonBioSale> NonBioSales => Set<NonBioSale>();
+    public DbSet<NonBioSaleItem> NonBioSaleItems => Set<NonBioSaleItem>();
+    public DbSet<HouseholdQrToken> HouseholdQrTokens => Set<HouseholdQrToken>();
+    public DbSet<BioCollectionVisit> BioCollectionVisits => Set<BioCollectionVisit>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>().HasIndex(user => user.Email).IsUnique();
         modelBuilder.Entity<User>().Property(user => user.Role).HasConversion<string>();
+        modelBuilder.Entity<User>().Property(user => user.Address).HasMaxLength(500);
+        modelBuilder.Entity<User>().Property(user => user.Area).HasMaxLength(160);
         modelBuilder.Entity<WasteCategory>().Property(category => category.Group).HasConversion<string>();
         modelBuilder.Entity<PickupRequest>().Property(request => request.Status).HasConversion<string>();
         modelBuilder.Entity<PickupRequest>().HasIndex(request => new { request.Status, request.CreatedAt });
         modelBuilder.Entity<PickupRequestItem>().Property(item => item.RequestedQuantity).HasPrecision(10, 2);
         modelBuilder.Entity<PickupRequestItem>().Property(item => item.ActualQuantity).HasPrecision(10, 2);
         modelBuilder.Entity<PickupRequest>().HasMany(request => request.Items).WithOne().HasForeignKey(item => item.RequestId).OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<NonBioSale>().Property(sale => sale.Status).HasConversion<string>();
+        modelBuilder.Entity<NonBioSale>().HasIndex(sale => new { sale.SellerId, sale.CreatedAt });
+        modelBuilder.Entity<NonBioSale>().HasIndex(sale => sale.QrTokenHash);
+        modelBuilder.Entity<NonBioSaleItem>().Property(item => item.Quantity).HasPrecision(10, 2);
+        modelBuilder.Entity<NonBioSaleItem>().Property(item => item.Rate).HasPrecision(10, 2);
+        modelBuilder.Entity<NonBioSale>().HasMany(sale => sale.Items).WithOne().HasForeignKey(item => item.SaleId).OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<HouseholdQrToken>().HasIndex(token => token.TokenHash).IsUnique();
+        modelBuilder.Entity<HouseholdQrToken>().HasIndex(token => new { token.HouseholdUserId, token.ExpiresAt });
+        modelBuilder.Entity<BioCollectionVisit>().HasIndex(visit => new { visit.WorkerUserId, visit.CreatedAt });
     }
 
     public static IReadOnlyList<WasteCategory> SeedCategories =>
     [
-        new() { Id = 1, Name = "Biodegradable Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "biodegradable" },
-        new() { Id = 2, Name = "Egg Shell Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "eggshell" },
-        new() { Id = 3, Name = "Animal and Fish Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "animal-fish" },
-        new() { Id = 4, Name = "Hard Organics", Group = WasteGroup.Bio, Unit = "kg", IconKey = "hard-organics" },
-        new() { Id = 5, Name = "Fallen Leaves and Twigs", Group = WasteGroup.Bio, Unit = "kg", IconKey = "leaves" },
-        new() { Id = 6, Name = "Used Oil", Group = WasteGroup.Bio, Unit = "litre", IconKey = "used-oil" },
+        //new() { Id = 1, Name = "Biodegradable Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "biodegradable" },
+        //new() { Id = 2, Name = "Egg Shell Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "eggshell" },
+        //new() { Id = 3, Name = "Animal and Fish Waste", Group = WasteGroup.Bio, Unit = "kg", IconKey = "animal-fish" },
+        //new() { Id = 4, Name = "Hard Organics", Group = WasteGroup.Bio, Unit = "kg", IconKey = "hard-organics" },
+        //new() { Id = 5, Name = "Fallen Leaves and Twigs", Group = WasteGroup.Bio, Unit = "kg", IconKey = "leaves" },
+        //new() { Id = 6, Name = "Used Oil", Group = WasteGroup.Bio, Unit = "litre", IconKey = "used-oil" },
         new() { Id = 7, Name = "Plastic Waste", Group = WasteGroup.NonBio, Unit = "kg", IconKey = "plastic" },
         new() { Id = 8, Name = "Paper and Cardboard", Group = WasteGroup.NonBio, Unit = "kg", IconKey = "paper" },
         new() { Id = 9, Name = "Thermocol and Rubber", Group = WasteGroup.NonBio, Unit = "kg", IconKey = "thermocol-rubber" },

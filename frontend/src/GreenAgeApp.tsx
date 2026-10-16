@@ -2,7 +2,7 @@ import { createContext, useContext, useState, type FormEvent, type ReactNode } f
 import { Link, Navigate, Outlet, Route, Routes, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-import { Bell, Check, ChevronRight, Leaf, LocateFixed, LogOut, MapPin, Phone, Recycle, ShieldAlert, Sprout, Truck, UserRound, X } from 'lucide-react'
+import { Bell, Check, ChevronRight, Leaf, LocateFixed, LogOut, MapPin, Phone, QrCode, Recycle, ShieldAlert, Sprout, Truck, UserRound, X } from 'lucide-react'
 import { errorMessage } from './api/client'
 import { categoriesApi, meApi, notificationsApi, requestsApi, sosApi } from './api/resources'
 import { AuthProvider } from './context/AuthContext'
@@ -11,19 +11,25 @@ import LocationPicker, { type LocationValue } from './components/map/LocationPic
 import RequestCard from './components/request/RequestCard'
 import StatusBadge from './components/request/StatusBadge'
 import QrDisplay from './components/qr/QrDisplay'
+import NonBioTrade from './components/sales/NonBioTrade'
 import type { PickupRequest, RequestDraft, UserRole } from './types'
 import './GreenAge.css'
 import './App.css'
+import './LandingBioLink.css'
 
 const DraftContext = createContext<{ draft: RequestDraft | null; setDraft: (draft: RequestDraft | null) => void } | null>(null)
 function useDraft() { const context = useContext(DraftContext); if (!context) throw new Error('Draft context missing'); return context }
-const home = (role?: UserRole) => role === 'Collect' ? '/collect/inbox' : '/deliver/new'
+const home = (role?: UserRole) => role === 'Collect' ? '/collect/inbox' : '/deliver/sell'
+const bioAppUrl = import.meta.env.VITE_BIO_APP_URL || 'http://localhost:5174'
 
 export default function GreenAgeApp() {
   const [draft, setDraft] = useState<RequestDraft | null>(null)
   return <AuthProvider><DraftContext.Provider value={{ draft, setDraft }}><Routes>
     <Route path="/" element={<Landing />} /><Route path="/login" element={<AuthPage register={false} />} /><Route path="/register" element={<AuthPage register />} />
     <Route element={<RequireAuth />}><Route element={<Shell />}>
+      <Route path="/deliver/sell" element={<RequireRole role="Deliver"><NonBioTrade /></RequireRole>} />
+      <Route path="/deliver/history" element={<RequireRole role="Deliver"><NonBioTrade initialView="history" /></RequireRole>} />
+      <Route path="/collect/sales" element={<RequireRole role="Collect"><NonBioTrade initialView="scan" /></RequireRole>} />
       <Route path="/deliver/new" element={<RequireRole role="Deliver"><RaiseTicket /></RequireRole>} />
       <Route path="/deliver/cart" element={<RequireRole role="Deliver"><ServiceCart /></RequireRole>} />
       <Route path="/deliver/requests" element={<RequireRole role="Deliver"><MyRequests /></RequireRole>} />
@@ -43,7 +49,7 @@ function Logo() { return <Link className="brand" to="/"><span className="brand-m
 function Landing() {
   const { auth } = useAuth()
   if (auth) return <Navigate to={home(auth.user.role)} replace />
-  return <div className="landing"><header className="landing-nav"><Logo /><Link to="/login">Log in <ChevronRight size={15} /></Link></header><main className="landing-main"><section className="landing-copy"><span className="eyebrow"><Sprout size={15} /> A cleaner way to move waste</span><h1>We think for<br /><em>every waste.</em></h1><p>Good waste deserves a better next step. Connect with local collectors and keep useful materials in motion.</p><div className="landing-choices"><Link className="choice choice-deliver" to="/register?role=Deliver"><span><Leaf size={22} /></span><strong>I have waste</strong><small>Arrange a pickup</small><ChevronRight size={18} /></Link><Link className="choice choice-collect" to="/register?role=Collect"><span><Truck size={22} /></span><strong>I collect waste</strong><small>Find nearby pickups</small><ChevronRight size={18} /></Link></div><div className="landing-login">Already part of the loop? <Link to="/login">Log in <ChevronRight size={15} /></Link></div></section><aside className="landing-art"><div className="sun-disc" /><div className="park-hill hill-one" /><div className="park-hill hill-two" /><div className="tree tree-one"><i /><b /><span /></div><div className="tree tree-two"><i /><b /><span /></div><div className="bin-illustration"><Recycle size={38} /><span>RECYCLE</span></div><div className="art-caption">Small actions.<br /><b>A lighter footprint.</b></div></aside></main><footer className="landing-footer"><span>GREEN AGE DEVELOPMENT CORPORATION</span><span>Collect well. Live well.</span></footer></div>
+  return <div className="landing"><header className="landing-nav"><Logo /><Link to="/login">Log in <ChevronRight size={15} /></Link></header><main className="landing-main"><section className="landing-copy"><span className="eyebrow"><Sprout size={15} /> A cleaner way to move waste</span><h1>We think for<br /><em>every waste.</em></h1><p>Good waste deserves a better next step. Connect with local collectors and keep useful materials in motion.</p><div className="landing-choices"><Link className="choice choice-deliver" to="/register?role=Deliver"><span><Leaf size={22} /></span><strong>Sell recyclables</strong><small>Compare local kabadiwala rates</small><ChevronRight size={18} /></Link><Link className="choice choice-collect" to="/register?role=Collect"><span><Truck size={22} /></span><strong>Collect recyclables</strong><small>Scan sale QR codes</small><ChevronRight size={18} /></Link><a className="choice choice-bio" href={bioAppUrl} target="_blank" rel="noreferrer"><span><Sprout size={22} /></span><strong>Municipal bio collection</strong><small>Household QR and ward worker visits</small><ChevronRight size={18} /></a></div><div className="landing-login">Already part of the loop? <Link to="/login">Log in <ChevronRight size={15} /></Link></div></section><aside className="landing-art"><div className="sun-disc" /><div className="park-hill hill-one" /><div className="park-hill hill-two" /><div className="tree tree-one"><i /><b /><span /></div><div className="tree tree-two"><i /><b /><span /></div><div className="bin-illustration"><Recycle size={38} /><span>RECYCLE</span></div><div className="art-caption">Small actions.<br /><b>A lighter footprint.</b></div></aside></main><footer className="landing-footer"><span>GREEN AGE DEVELOPMENT CORPORATION</span><span>Collect well. Live well.</span></footer></div>
 }
 
 function AuthPage({ register }: { register: boolean }) {
@@ -69,7 +75,7 @@ function Shell() {
   const { auth, logout } = useAuth(); const [sosOpen, setSosOpen] = useState(false), [alertsOpen, setAlertsOpen] = useState(false)
   const queryClient = useQueryClient(), notices = useQuery({ queryKey: ['notifications'], queryFn: notificationsApi.list, refetchInterval: 15_000 })
   const unread = notices.data?.filter((notice) => !notice.isRead).length ?? 0
-  const title = location.pathname.includes('/new') ? 'New pickup' : location.pathname.includes('/cart') ? 'Service cart' : location.pathname.includes('inbox') ? 'Request received' : location.pathname.includes('profile') ? 'Your profile' : location.pathname.includes('notifications') ? 'Notifications' : 'Pickup activity'
+  const title = location.pathname.includes('/sell') ? 'Sell recyclables' : location.pathname.includes('/history') ? 'Sale history' : location.pathname.includes('/sales') ? 'Verify a sale' : location.pathname.includes('/new') ? 'New pickup' : location.pathname.includes('/cart') ? 'Service cart' : location.pathname.includes('inbox') ? 'Request received' : location.pathname.includes('profile') ? 'Your profile' : location.pathname.includes('notifications') ? 'Notifications' : 'Pickup activity'
   const submitSos = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault(); const message = String(new FormData(event.currentTarget).get('message') ?? '')
     const send = (lat: number, lng: number) => sosApi(lat, lng, message).then(() => toast.success('Alert sent')).catch((error: unknown) => toast.error(errorMessage(error)))
@@ -122,7 +128,7 @@ function Inbox() {
   const [radius, setRadius] = useState(10), [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null)
   const query = useQuery({ queryKey: ['requests', 'open', radius, coords], queryFn: () => requestsApi.open(coords?.lat, coords?.lng, radius), refetchInterval: 10_000 })
   const locate = () => navigator.geolocation.getCurrentPosition(({ coords: point }) => setCoords({ lat: point.latitude, lng: point.longitude }), () => toast.error('Location unavailable. Showing newest requests.'))
-  return <><Heading eyebrow="Collect · Nearby pickups" title="Request received" description="Open pickups sorted by distance when your location is available." action={<button className="button button-outline" onClick={locate}><LocateFixed size={17} /> Find near me</button>} /><div className="inbox-controls"><span>{coords ? 'Nearby pickups' : 'Latest open pickups'}</span><label>Radius <select value={radius} onChange={(event) => setRadius(Number(event.target.value))}><option value={5}>5 km</option><option value={10}>10 km</option><option value={25}>25 km</option><option value={50}>50 km</option></select></label></div>{query.data?.length ? <div className="request-list">{query.data.map((request) => <RequestCard key={request.id} request={request} role="Collect" />)}</div> : <Empty title="No open pickups nearby" text="Check back soon or expand your search radius." />}</>
+  return <><Heading eyebrow="Collect · Nearby pickups" title="Request received" description="Open pickups sorted by distance when your location is available." action={<div className="inbox-heading-actions"><Link className="button button-outline" to="/collect/sales"><QrCode size={16} /> Scan sale QR</Link><button className="button button-outline" onClick={locate}><LocateFixed size={17} /> Find near me</button></div>} /><div className="inbox-controls"><span>{coords ? 'Nearby pickups' : 'Latest open pickups'}</span><label>Radius <select value={radius} onChange={(event) => setRadius(Number(event.target.value))}><option value={5}>5 km</option><option value={10}>10 km</option><option value={25}>25 km</option><option value={50}>50 km</option></select></label></div>{query.data?.length ? <div className="request-list">{query.data.map((request) => <RequestCard key={request.id} request={request} role="Collect" />)}</div> : <Empty title="No open pickups nearby" text="Check back soon or expand your search radius." />}</>
 }
 
 function CollectDetail() {

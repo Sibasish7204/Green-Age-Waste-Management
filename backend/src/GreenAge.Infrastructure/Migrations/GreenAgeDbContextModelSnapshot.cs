@@ -17,6 +17,67 @@ namespace GreenAge.Infrastructure.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.31");
 
+            modelBuilder.Entity("GreenAge.Core.BioCollectionVisit", b =>
+                {
+                    b.Property<Guid>("Id").HasColumnType("TEXT");
+                    b.Property<string>("Address").IsRequired().HasColumnType("TEXT");
+                    b.Property<string>("Area").IsRequired().HasColumnType("TEXT");
+                    b.Property<DateTime>("CreatedAt").HasColumnType("TEXT");
+                    b.Property<Guid>("HouseholdUserId").HasColumnType("TEXT");
+                    b.Property<string>("HouseholdName").IsRequired().HasColumnType("TEXT");
+                    b.Property<Guid>("WorkerUserId").HasColumnType("TEXT");
+                    b.HasKey("Id");
+                    b.HasIndex("WorkerUserId", "CreatedAt");
+                    b.ToTable("BioCollectionVisits");
+                });
+
+            modelBuilder.Entity("GreenAge.Core.HouseholdQrToken", b =>
+                {
+                    b.Property<Guid>("Id").HasColumnType("TEXT");
+                    b.Property<DateTime>("ExpiresAt").HasColumnType("TEXT");
+                    b.Property<Guid>("HouseholdUserId").HasColumnType("TEXT");
+                    b.Property<string>("TokenHash").IsRequired().HasColumnType("TEXT");
+                    b.Property<DateTime?>("UsedAt").HasColumnType("TEXT");
+                    b.HasKey("Id");
+                    b.HasIndex("HouseholdUserId", "ExpiresAt");
+                    b.HasIndex("TokenHash").IsUnique();
+                    b.ToTable("HouseholdQrTokens");
+                });
+
+            modelBuilder.Entity("GreenAge.Core.NonBioSale", b =>
+                {
+                    b.Property<Guid>("Id").HasColumnType("TEXT");
+                    b.Property<Guid?>("CollectorId").HasColumnType("TEXT");
+                    b.Property<DateTime>("CreatedAt").HasColumnType("TEXT");
+                    b.Property<DateTime?>("QrTokenExpiresAt").HasColumnType("TEXT");
+                    b.Property<string>("QrTokenHash").HasColumnType("TEXT");
+                    b.Property<Guid>("SellerId").HasColumnType("TEXT");
+                    b.Property<string>("Status").IsRequired().HasColumnType("TEXT");
+                    b.Property<string>("StoreId").IsRequired().HasColumnType("TEXT");
+                    b.Property<string>("StoreName").IsRequired().HasColumnType("TEXT");
+                    b.Property<decimal>("Total").HasPrecision(10, 2).HasColumnType("TEXT");
+                    b.Property<DateTime?>("VerifiedAt").HasColumnType("TEXT");
+                    b.HasKey("Id");
+                    b.HasIndex("QrTokenHash");
+                    b.HasIndex("SellerId", "CreatedAt");
+                    b.ToTable("NonBioSales");
+                });
+
+            modelBuilder.Entity("GreenAge.Core.NonBioSaleItem", b =>
+                {
+                    b.Property<Guid>("Id").HasColumnType("TEXT");
+                    b.Property<int>("CategoryId").HasColumnType("INTEGER");
+                    b.Property<string>("CategoryKey").IsRequired().HasColumnType("TEXT");
+                    b.Property<string>("CategoryName").IsRequired().HasColumnType("TEXT");
+                    b.Property<decimal>("Quantity").HasPrecision(10, 2).HasColumnType("TEXT");
+                    b.Property<decimal>("Rate").HasPrecision(10, 2).HasColumnType("TEXT");
+                    b.Property<Guid>("SaleId").HasColumnType("TEXT");
+                    b.Property<string>("Unit").IsRequired().HasColumnType("TEXT");
+                    b.HasKey("Id");
+                    b.HasIndex("SaleId");
+                    b.ToTable("NonBioSaleItems");
+                });
+
             modelBuilder.Entity("GreenAge.Core.Notification", b =>
                 {
                     b.Property<Guid>("Id")
@@ -24,6 +85,14 @@ namespace GreenAge.Infrastructure.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Address")
+                        .HasMaxLength(500)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Area")
+                        .HasMaxLength(160)
                         .HasColumnType("TEXT");
 
                     b.Property<bool>("IsRead")
@@ -143,6 +212,15 @@ namespace GreenAge.Infrastructure.Migrations
                     b.ToTable("RequestItems");
                 });
 
+            modelBuilder.Entity("GreenAge.Core.NonBioSaleItem", b =>
+                {
+                    b.HasOne("GreenAge.Core.NonBioSale", null)
+                        .WithMany("Items")
+                        .HasForeignKey("SaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GreenAge.Core.SosAlert", b =>
                 {
                     b.Property<Guid>("Id")
@@ -245,6 +323,11 @@ namespace GreenAge.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("GreenAge.Core.PickupRequest", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("GreenAge.Core.NonBioSale", b =>
                 {
                     b.Navigation("Items");
                 });
